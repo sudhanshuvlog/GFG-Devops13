@@ -1,0 +1,11 @@
+#This dockerfile will create a image where httpd server will be running and will serve the webpages I created
+FROM amazonlinux:latest
+RUN yum update -y && yum install httpd -y
+LABEL maintainer="sudhanshu"
+WORKDIR /var/www/html
+COPY /index.html .
+EXPOSE 80
+ENV GREETING "hello from dockerfile:"
+#Starting the httpd server
+ENTRYPOINT ["httpd"]
+CMD ["-D", "FOREGROUND"]

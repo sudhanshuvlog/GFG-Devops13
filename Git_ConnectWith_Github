@@ -1,0 +1,13 @@
+#Two Ways to Authenticate local git repo with Github
+
+#1. Via SSH Protocol - Run the bellow command from your git bash
+
+git remote add origin git@github.com:<GithubUsername>/<RepositoryName>.git
+git remote -v #while running this command - you should get output like below
+  origin  git@github.com:Trainersudhanshu/testrepo.git (fetch)
+  origin  git@github.com:Trainersudhanshu/testrepo.git (push)
+
+
+#2. Via HTTPS Protocol - Run the bwllow command from your git bash, just put your username, access token and repository name
+
+git remote set-url origin https://username:personal_access_token@github.com/username/repository.git
