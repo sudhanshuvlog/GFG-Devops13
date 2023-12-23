@@ -1,0 +1,66 @@
+version: 0.2
+
+#env:
+  #variables:
+     # key: "value"
+     # key: "value"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+  #secrets-manager:
+     # key: secret-id:json-key:version-stage:version-id
+     # key: secret-id:json-key:version-stage:version-id
+  #exported-variables:
+     # - variable
+     # - variable
+  #git-credential-helper: yes
+#batch:
+  #fast-fail: true
+  #build-list:
+  #build-matrix:
+  #build-graph:
+phases:
+  install:
+    runtime-versions:
+       python: 3.8
+      # name: version
+    commands:
+       - echo "Installing dependencies"
+       - pip install -r "requirements.txt"
+      # - command
+  pre_build:
+    commands:
+      #login
+      - aws ecr get-login-password --region ap-south-1| docker login --username AWS --password-stdin 020102172207.dkr.ecr.ap-south-1.amazonaws.com
+      - echo "login succesfull"
+  build:
+    commands:
+       - echo "Running the tests"
+       - pytest
+       - echo "Tesing succesfull"
+       - pwd
+       - ls
+       - docker build -t 020102172207.dkr.ecr.ap-south-1.amazonaws.com/gfgapp:latest .
+       - docker push 020102172207.dkr.ecr.ap-south-1.amazonaws.com/gfgapp:latest
+  #post_build:
+    #commands:
+      # - command
+      # - command
+#reports:
+  #report-name-or-arn:
+    #files:
+      # - location
+      # - location
+    #base-directory: location
+    #discard-paths: yes
+    #file-format: JunitXml | CucumberJson
+artifacts:
+  files:
+    - '**/*'
+  name: $(date +%Y-%m-%d)
+  discard-paths: yes
+  #base-directory: /BuildArtif/
+  bucket-name: codepipeline-ap-south-1-90145166653
+#cache:
+  #paths:
+    # - paths
