@@ -1,0 +1,25 @@
+- hosts: all
+  become: yes
+  vars:
+    gfgpkgs:
+      - httpd
+      - php
+      - python3
+
+  tasks:
+    - name: "Install the packages for me"
+      package:
+        name: "{{item}}"
+        state: present
+      loop: "{{gfgpkgs}}"
+
+    - name: "copy the file"
+      copy:
+        src: index.html
+        dest: /var/www/html
+
+    - name: "starting the service"
+      service:
+        name: httpd
+        state: started
+        enabled: yes
