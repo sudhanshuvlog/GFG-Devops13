@@ -1,0 +1,6 @@
+[
+  {
+    "name": "mycontainer",
+    "imageUri": "020102172207.dkr.ecr.ap-south-1.amazonaws.com/gfgapp:latest"
+  }
+]
