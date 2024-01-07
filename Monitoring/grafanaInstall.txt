@@ -13,3 +13,5 @@ sslcacert=/etc/pki/tls/certs/ca-bundle.crt
 
 
 #yum install grafana
+
+#systemctl start grafana-server
