@@ -1,9 +1,10 @@
 resource "aws_instance" "web" {
+  count = 3
   depends_on = [aws_key_pair.my_key_pair, aws_security_group.webserver_sg ]
   ami   = data.aws_ami.latest_amazon_linux.id
   instance_type = var.instanceType
   tags = {
-    Name = var.instanceTagName
+    Name = "${var.instanceTagName}-${count.index}"
   }
   key_name = aws_key_pair.my_key_pair.key_name
   vpc_security_group_ids = [aws_security_group.webserver_sg.id]
@@ -54,10 +55,15 @@ provisioner "local-exec" {
     command = "echo [prod] > inventory"
   }
 
+}
+resource "null_resource" "configureansibleinventoryIPdetails"{
+count =3
+triggers ={
+  mytrigger = timestamp()
+}
 provisioner "local-exec" {
-    command = "echo ${aws_instance.web.public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=gfgkey >> inventory"
+    command = "echo ${aws_instance.web[count.index].public_ip} ansible_user=ec2-user ansible_ssh_private_key_file=gfgkey >> inventory"
   }
-
 }
 
 resource "null_resource" "destroy_resource"{
